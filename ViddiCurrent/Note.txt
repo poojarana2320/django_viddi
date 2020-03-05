@@ -1,0 +1,17 @@
+httpd -k restart
+
+www.viddi.com.au
+C:\Users\developer\Desktop\turborecruit\envs\turbo\Scripts\activate
+
+pip install mod_wsgi
+
+_interp.obj : error LNK2001: unresolved external symbol __imp__ap_get_server_built@0
+  wsgi_metrics.obj : error LNK2001: unresolved external symbol __imp__ap_get_scoreboard_process@4
+  wsgi_metrics.obj : error LNK2001: unresolved external symbol __imp__ap_get_scoreboard_worker_from_indexes@8
+  wsgi_metrics.obj : error LNK2001: unresolved external symbol __imp__ap_exists_scoreboard_image@0
+  wsgi_thread.obj : error LNK2001: unresolved external symbol __imp__apr_threadkey_private_get@8
+  wsgi_thread.obj : error LNK2001: unresolved external symbol __imp__apr_threadkey_private_set@8
+  build\lib.win32-3.7\mod_wsgi\server\mod_wsgi.cp37-win32.pyd : fatal error LNK1120: 105 unresolved externals
+  error: command 'C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.24.28314\\bin\\HostX86\\x86\\link.exe' failed with exit status 1120
+  ----------------------------------------
+  ERROR: Failed building wheel for mod-wsgi

@@ -1,0 +1,163 @@
+{% extends "authbase.html" %}
+{% load static %}
+{% block interviewercontent %}
+{% if user.user_type < 10 %}
+<!-- ##Beginning content of the page -->
+<section class="content">
+  <header>
+    <div class="overlay"></div>
+    <nav class="navbar bg-theme">
+      <div class="container-fluid">
+        <div class="navbar-user">
+          <a {% if user.user_type < 3 %} href="{% url 'interviewer:user_management_edit' user.pk %}" {% else %} href=""
+            {% endif %}>
+            <div class="User_Add"><span><i class="fas fa-user-tie"></i></span></div>
+            <span>{{ user.first_name }}</span>
+          </a>
+          <div class="  " style="float: right !important;">
+            <a href="{% url 'logout' %}" class=" waves-effect waves-block">
+              <i class="fa fa-power-off" aria-hidden="true"></i>
+            </a>
+          </div>
+          <div class=" " style="float: right !important;">
+            <a href="{% url 'password_change' %}" class=" waves-effect waves-block">
+              <i class="fa fa-key fa-lg fa-stack" aria-hidden="true" style="color:black;"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+  {% if messages %}
+  {% for message in messages %}
+  <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {% endfor %}
+  {% endif %}
+  <div class="pageTitle">
+    <h4>Create Interview</h4>
+  </div>
+  <form method="post">
+    {# class="createInterviewForm" id="createInterviewForm" #}
+    {% csrf_token %}
+    <div class="row CreateInter">
+      <div class="col-md-6 col-sm-12 col-xs-12">
+        <div class="form-row">
+          <div class="form-group col-md-6 col-sm-6 col-xs-12 width_hund">
+            <label>Vacancy</label>
+            {{ form.position_name }}
+          </div>
+        </div>
+        <!-- Modal content -->
+        <h6 class="mb-3">Add Questions</h6>
+        <div class="form-row">
+          <div class="form-group col-md-6 col-sm-6 col-xs-12">
+            <button type="button" onclick="checkPost()" id="questBank" class="btn" data-toggle="modal">Add from Question
+              Library</button>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-6 text-center">
+            <h6 class="mb-3">OR</h6>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-6">
+            <h6 class="mb-3">Add Questions</h6>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6 col-sm-6 col-xs-12 width_hund">
+            <label>Build Your Interview</label>
+            <textarea name="interview_question" id="interview_question" class="form-control"
+              placeholder="Interview Questions"></textarea>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6 col-sm-6 col-xs-12">
+            <label>Time (sec)</label>
+            <input type="text" name="mQuestion_time" class="form-control" id="practiceQnTm"
+              placeholder="Enter question time" value="">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-6">
+            {# <input type="hidden" name="qbj_question" id="qbj_question" value=""> #}
+            {{ form.questions }}
+            <input type="hidden" name="post_id" id="post_id" value="">
+            <button type="button" name="addQuestion" id="addQuestion"
+              class="btn btn-b-theme bg-theme reviewbtn addQuestion" value="Add">Add</button>
+            <span id="addBtnSpan" class="text-danger"></span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-12 col-xs-12 Adw">
+        <div class="listContainer pl-3" id="questDiv">
+          <h6 class="mb-3">Confirm your Questions &amp; <br> click continue to create an Interview</h6>
+          <h5 class="noQn text-danger">No Question Added</h5>
+          <div id="sortable"></div>
+        </div>
+        {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+        {{error}}
+        {% endfor %}
+        {% endif %}
+        {% if form.errors %}
+        {% for field, errors in form.errors.items %}
+        {% for error in errors %}
+        <p style="color:red;">{{ error }}</p>
+        {% endfor %}
+        {% endfor %}
+        {% endif %}
+        <div class="row justify-content-end createinterviewContainer ConBtn">
+          <div class="col-6">
+            <button type="submit" name="createInterview" id="createInterview"
+              class="btn btn-b-theme bg-theme createinterview Continuebtn" value="Continue"
+              disabled="">Continue</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="modal fade" id="questionsModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Interview Questions</h4>
+          <div class="">
+            <input type="search" name="searchQn" id="searchQn" class="Candy" value="" placeholder="search">
+          </div>
+        </div>
+        <div class="modal-body">
+          {% for question in question_list %}
+          <div class="popupQnContainer" data-filter="{{ question }}">
+            <div class="row">
+              <div class="col-md-1 col-sm-1 col-xs-1 pr-0 pt-1">
+                <input type="checkbox" name="checkQuestions" value="{{ question }}" data-qntime="{{ question.time }}"
+                  class="checkQuestion">
+              </div>
+              <div class="col-md-11 col-sm-11 col-xs-11 pl-0 text-justify">
+                <div id="addQn"><span>{{ question }}</span></div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="modal-footer ShareMod">
+          <button type="button" class="btn btn-default CandyClose" data-dismiss="modal">Close</button>
+          <button type="button" class="btn ShareSuccess CandySave" name="addInterviewQuestions"
+            onclick="addInterviewQuestions();">Add Questions</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+{% else %}
+<p>You need permission to perform this action.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,211 @@
+
+body{
+    background-image: none !important;
+    }
+
+	table.dataTable.table-sm>thead>tr>th { border:none; }
+
+@media screen and (min-width: 320px) and (max-width: 1200px) {
+    body { height: 100%;  }
+    .loginMainContainer { margin: 0px auto; }
+    .loginFormContainer { width: 275px; }
+}
+
+@media screen and (min-width: 320px) and (max-width: 500px) {
+
+}
+
+@media screen and (min-width: 500px) and (max-width: 800px) {
+
+}
+
+
+@media screen and (min-width: 320px) {
+    .form-group.col-md-6.col-sm-6.col-xs-12.NewName  { max-width: 100%; }
+    .col-12.userMaintenance .col-sm-12 { overflow-x: auto; }
+}
+@media screen and (min-width: 320px)  and (max-width:991px) {
+
+
+
+.menu { display:none; }
+.menu.active { display:block; }
+
+.Logo_Sidebar { padding:20px 0 18px 0; }
+    aside#leftsidebar { width: 100%; left: 0; position: unset; margin-left: 0; height: unset !important; } /* Sidebar Code */
+
+    section.content { width: 100% !important; margin-left: 0 !important; margin: 80px 0 0 0 !important; left: 0 !important; } /* Content Code */
+
+    nav.navbar.bg-theme { display: none; } /* Navbar Hide 992 Code */
+
+    .Logo_Sidebar img {  height: 50px; width: unset !important; } /* Image Width Code */
+
+    .sidebar .menu { height: unset !important; } /* Toggle Slider Height Set  Code */
+
+	.toggle_bar {
+    position: absolute;
+    top: 30px;
+    right: 25px;
+    font-size: 20px;
+    color: #fff;
+}
+
+.toggle_bar {
+	display:block;
+}
+
+nav.navbar.bg-theme {
+display: block;
+width: 100%;
+left: 0;
+position: absolute;
+top: 84px;
+}
+
+.navbar-user {
+    display: block;
+}
+
+
+
+}
+
+@media screen and (min-width: 991px) {
+    .ls-closed .sidebar { margin-left: 0 !important; }
+}
+
+@media screen and (max-width: 991px) {
+  aside#leftsidebar.active{ width: 100%; }
+  nav.navbar.bg-theme.menu-open{
+    width:100%;
+    left: 0%;
+    top: 88px;
+  }
+}
+
+
+
+@media screen and (min-width: 320px)  and (max-width:444px) {
+
+    .pageTitle h4 {  font-size: 14px; }
+
+    .questionMaintenance .float-right  { float: unset !important;  margin-top: 5px;}
+}
+
+
+@media screen and (min-width: 445px) and (max-width:700px) {
+
+    .pageTitle h4 {  font-size: 14px; }
+
+    .questionMaintenance .float-right  { float: right !important;  margin-top: 5px;  }
+}
+
+@media screen and (min-width: 701px) and (max-width:720px) {
+
+    .pageTitle h4 { margin-top: 0  }
+
+}
+
+
+@media screen and (min-width: 320px)  and (max-width:991px) {
+
+img.O-Click { display:unset !important; }
+img.Second_Image_O { display:none; }
+.Arrow { display:none; }
+.pipeRecordRTC { width: 100% !important; }
+
+div.pipeRecordRTC { margin-left: 0 !important;  }
+.toggle_bar {
+    display: block !important;
+}
+
+.menu ul li a b {
+    display: unset;
+}
+
+.sidebar .menu .list a {
+    padding: 5px 13px;
+    color: #ffffff;
+    text-align: unset;
+}
+
+.sidebar .menu .list a span {
+    margin: 7px 0 7px 12px !important;
+    width: unset;
+}
+
+.menu.active ul li a b {
+    display: unset;
+}
+
+    .SaveBtnSS {
+    width: 100% !important;
+    max-width: 100% !important;
+        text-align: center;
+}
+
+.SaveBtnSS button{
+    float: unset !important;
+}
+
+    .selectWrapper.selectwrappercust {
+    width: 100% !important;
+}
+
+
+section.content {
+    width: 100%;
+    position: unset;
+    margin: 80px 0 0 0 !important;
+}
+
+table#DataTables_Table_0 {
+    width: 100% !important;
+    display: block;
+    overflow-x: auto;
+}
+
+.menu.active {
+margin-top: 45px;
+}
+
+section.content.menu-open {
+margin-top: 10px !important;
+}
+
+
+
+.col-md-1.col-sm-1.col-xs-1.pr-0.pt-1 {
+  float: left;
+  width: 10%;
+}
+.col-md-11.col-sm-11.col-xs-11.pl-0.text-justify {
+  float: left;
+  width: 90%;
+}
+.modal.show .modal-dialog {
+  overflow-y: scroll;
+}
+
+button#questBank {
+    white-space: unset !important;
+}
+
+}
+
+
+@media screen and (min-width: 320px)  and (max-width:520px) {
+
+.sideQnBtns { width: 100%; }
+
+.welcomeMainContainer .col-8 { width: 100%; flex: 100%; max-width: 100%; }
+
+.welcomeMainContainer .col-4 { width: 100%; flex: 100%; max-width: 100%;  padding: 0 !important;  text-align: center; }
+
+.downArrowContainer { width: 100%; }
+
+
+
+
+
+}

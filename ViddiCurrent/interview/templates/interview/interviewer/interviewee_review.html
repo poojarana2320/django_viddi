@@ -1,0 +1,227 @@
+{% extends "authbase.html" %}
+{% load static %}
+{% block interviewercontent %}
+{% if user.user_type < 10 %}
+<!-- ##Beginning content of the page -->
+<section class="content">
+  <header>
+    <div class="overlay"></div>
+    <nav class="navbar bg-theme">
+      <div class="container-fluid">
+        <div class="navbar-user">
+          <a {% if user.user_type < 3 %} href="{% url 'interviewer:user_management_edit' user.pk %}" {% else %} href=""
+            {% endif %}>
+            <div class="User_Add"><span><i class="fas fa-user-tie"></i></span></div>
+            <span>{{ user.first_name }}</span>
+          </a>
+          <div class="  " style="float: right !important;">
+            <a href="{% url 'logout' %}" class=" waves-effect waves-block">
+              <i class="fa fa-power-off" aria-hidden="true"></i>
+            </a>
+          </div>
+          <div class=" " style="float: right !important;">
+            <a href="{% url 'password_change' %}" class=" waves-effect waves-block">
+              <i class="fa fa-key fa-lg fa-stack" aria-hidden="true" style="color:black;"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+  {% if messages %}
+  {% for message in messages %}
+  <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {% endfor %}
+  {% endif %}
+  <div>
+    <div class="pageTitle userDet InterDetails">
+      <h4>Candidate Details</h4>
+      <div class="shareBtnContainer FloatRight">
+        <button class="btn bg-theme Sharebtn" data-toggle="modal" data-target="#shareInterview"><i
+            class="fa fa-share-alt"></i></button>
+        <a href="{% url 'interviewer:candidates_list' %}" class="btn btn-b-theme BackBtnPage">Back</a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 userMaintenance InterDet">
+        <div class="detailsContainer">
+          <div><label class="detailsLabel">Candidate Name</label>:<span
+              class="detailsValue">{{ interview_instance.candidate.name }}</span></div>
+          <div><label class="detailsLabel">Interview Date</label>:<span
+              class="detailsValue">{{ interview_instance.interview_create_date|date:'d/m/Y' }}</span></div>
+          <div>
+            <div><label class="detailsLabel">Candidate Email</label>:<span
+                class="detailsValue">{{ interview_instance.candidate.user_for_interview.email }}</span></div>
+            <div><label class="detailsLabel">Status</label>:<span
+                class="detailsValue">{{ interview_instance.get_status_display }}</span></div>
+            {% if interview_instance.review.all|length == 0 %}
+            <div><label class="detailsLabel">Review Status</label>:<span class="detailsValue">Not reviewed</span></div>
+            <div>
+              {% elif interview_instance.review.all|length > 0 %}
+              <div><label class="detailsLabel">Review Status</label>:<span
+                  class="detailsValue">{{ last_review.get_review_status_display }}</span></div>
+              <div>
+                {% endif %}
+                <h4 style="padding-top:15px;padding-bottom:15px;">Review Comments</h4>
+                {% if  reviews %}
+                {% for review in reviews %}
+                <p>
+                  {{ review.comment }} - Rated
+                  <span style="font-weight: 600;">{{ review.get_rating_display }}</span>
+                  by
+                  <span style="font-weight: 600;font-style: italic;">{{ review.reviewer.user.first_name }}</span>
+                  on
+                  <span style="font-size: 13px;font-weight: 600;">{{ review.review_create_date|date:'d/m/Y' }}</span>
+                </p>
+                {% endfor %}
+                {% else %}
+                <tr>No review available</tr>
+                {% endif %}
+              </div>
+              <div class="shareBtnContainer text-right">
+                <div class="row" style="padding-left: 20px;">
+                  <button class="btn bg-theme" data-toggle="modal" data-target="#reviewInterview"><i
+                      class="fas fa-share"></i>Review</button>
+                </div>
+              </div>
+              <div class="videoContainer">
+                <div class="videoContainerValue">
+                  <div class="row VideoSa">
+                    {% for answer in interview_instance.answers.all %}
+                    <div class="col-9">
+                      <div class="videoinnerContainer">
+                        <div class="question">
+                          <span class="font-weight-bold">Question : {{ forloop.counter }}</span>
+                          <div class="font-italic">{{ answer.question }}</div>
+                        </div>
+                        {% if answer.video_name != "" %}
+                        <video controls="">
+                          <source id="videoSrc" type="video/mp4"
+                            src="https://{{ answer.location }}/eedbf42f25d5a20164fe8a481515b223/{{ answer.video_name }}.mp4">
+                        </video>
+                        {% else %}
+                        <div class="videoinnerContainer">
+                          <div id="custom-id-{{ forloop.counter }}"></div>
+                          <p>No Video Recorded</p>
+                        </div>
+                        {% endif %}
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="shareInterview" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <form method="post">
+                {% csrf_token %}
+                <div class="modal-body ModemIn">
+                  <div class="InterShare">
+                    <h5 class="modal-title" id="exampleModalLabel"
+                      style="font-size: 30px;text-transform: capitalize !important; font-weight: normal;">Share</h5>
+                    <input type="search" class="searchContainer" name="searchUser" id="searchUser" value=""
+                      placeholder="search user">
+                  </div>
+                  <div class="form-row">
+                    <h6 class="col-12" style="font-weight:normal;">Share to</h6>
+                    <div class="form-check col-12">
+                      <select size="10" name="shareToUsers" multiple="multiple" class="form-control ShareSelect">
+                        {% for interviewer in interviewer_object.all %}
+                        <option value="{{ interviewer.user.email }}" data-fil="{{ interviewer.user.first_name }}">
+                          {{ interviewer.user.first_name }} {{ interviewer.user.last_name }}</option>
+                        {% endfor %}
+                      </select>
+                      <small class="float-right text-danger">Hold "Ctrl" and select multiple users</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer ShareMod">
+                  <button type="button" class="btn btn-secondary Canclebtn" data-dismiss="modal">Cancel</button>
+                  <button type="submit" id="share" class="btn btn-primary ShareSuccess" name="share">Share</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="reviewInterview" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Review</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <form method="post">
+                {% csrf_token %}
+                <div class="modal-body rev">
+                  <div class="form-row">
+                    <div class="form-check col-12">
+                      <div class="form-group col-6">
+                        <label>Rating Status:</label>
+                        <select name="ratingStatus" class="form-control">
+                          <option value="-9">Select status</option>
+                          <option value="0">Not reviewed</option>
+                          <option value="1" selected="">Shortlisted</option>
+                          <option value="2">Rejected</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-check col-12">
+                      <div class="form-group col-6">
+                        <label>Rating:</label>
+                        <select name="rating" class="form-control">
+                          <option value="-9">Rate out of 5</option>
+                          <option value="0">0</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5" selected="">5</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-check col-12">
+                      <div class="form-group col-6">
+                        <label>Comment:</label>
+                        <textarea id="comment" class="comment" cols="37" name="comment"></textarea>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary Canclebtn" data-dismiss="modal">Cancel</button>
+                      <button type="submit" id="review" class="btn btn-primary ShareSuccess" name="review">Save</button>
+                    </div>
+                  </div>
+                </div>
+                <!--<div class="modal-footer">
+                <button type="button" class="btn btn-secondary Canclebtn" data-dismiss="modal">Cancel</button>
+
+                  <button type="submit" class="btn btn-primary ShareSuccess" name="review">Save</button>
+                </div>-->
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+{% else %}
+<p>You need permission to perform this action.</p>
+{% endif %}
+{% endblock %}

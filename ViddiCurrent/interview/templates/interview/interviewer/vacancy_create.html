@@ -1,0 +1,82 @@
+{% extends "authbase.html" %} {% load static %} {% block interviewercontent %} {% if user.user_type < 10 %}
+<!-- ##Beginning content of the page -->
+    <section class="content">
+        <header>
+            <div class="overlay"></div>
+            <nav class="navbar bg-theme">
+                <div class="container-fluid">
+                    <div class="navbar-user">
+                        <a {% if user.user_type < 3 %} href="{% url 'interviewer:user_management_edit' user.pk %}" {% else %} href="" {% endif %}>
+                            <div class="User_Add"><span><i class="fas fa-user-tie"></i></span></div>
+                            <span>{{ user.first_name }}</span>
+                        </a>
+                        <div class="  " style="float: right !important;">
+                            <a href="{% url 'logout' %}" class=" waves-effect waves-block">
+                                <i class="fa fa-power-off" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        <div class=" " style="float: right !important;">
+                            <a href="{% url 'password_change' %}" class=" waves-effect waves-block">
+                                <i class="fa fa-key fa-lg fa-stack" aria-hidden="true" style="color:black;"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        {% if messages %} {% for message in messages %}
+        <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+    </button>
+        </div>
+        {% endfor %} {% endif %}
+        <div class="pageTitle userDet">
+            <h4 class="AddUserD">Add Vacancy</h4>
+            <a href="{% url 'interviewer:vacancies_list' %}" class="btn btn-b-theme float-left rightside">Back</a>
+        </div>
+        <div class="row addPostV">
+            <div class="col-12 userDetails">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                            <label>Vacancy Name</label> {{ form.position }}
+                        </div>
+                        <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                            <label>Status</label> {{ form.status }}
+                        </div>
+                        <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                            <label>Start Date</label>
+                            <input id="datepicker1"  name="start_date" class="form-control" placeholder="Enter start date" value="">
+                        </div>
+                        <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                            <label>Last Date</label>
+                            <input id="datepicker2"  name="l_date" class="form-control" placeholder="Enter last date" value="">
+                        </div>
+                        {% if user.user_type < 2 %}
+		             <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                              <label>Organisation</label> {{ form.organisation }}
+                            </div>
+                          {% endif %}
+                    <div class="form-group col-md-6 col-sm-6 col-xs-12 width_hund">
+                        <label>Interview Description</label> {{ form.description }}
+                    </div>
+            </div>
+            {% if form.non_field_errors %} {% for error in form.non_field_errors %} {{error}} {% endfor %} {% endif %} {% if form.errors %} {% for field, errors in form.errors.items %} {% for error in errors %}
+            <p style="color:red;">{{ error }}</p>
+            {% endfor %} {% endfor %} {% endif %}
+            <div class="form-row widthHund">
+                <div class="form-group col-md-12 col-sm-12 col-xs-12 centerbtn">
+                    <button type="submit" class="btn btn-b-theme float-right" id="addVacButton" name="btn_Add">Add</button>
+                </div>
+            </div>
+            </form>
+        </div>
+        </div>
+        </div>
+    </section>
+    {% else %}
+    <p>You need permission to perform this action.</p>
+    {% endif %} {% endblock %}

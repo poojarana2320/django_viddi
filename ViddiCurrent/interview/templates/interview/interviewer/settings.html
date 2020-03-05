@@ -1,0 +1,107 @@
+{% extends "authbase.html" %}
+{% load static %}
+{% block interviewercontent %}
+<!-- ##Beginning content of the page -->
+  {% if user.user_type < 2 %}
+    <section class="content ">
+      <header >
+        <div class="overlay"></div>
+        <nav class="navbar bg-theme">
+          <div class="container-fluid">
+            <div class="navbar-user">
+              <a {% if user.user_type < 3 %}
+                  href="{% url 'interviewer:user_management_edit' user.pk %}"
+                {% else %}
+                  href=""
+                {% endif %}>
+              <div class="User_Add"><span><i class="fas fa-user-tie"></i></span></div>
+              <span>{{ user.first_name }}</span>
+              </a>
+              <div class="  " style="float: right !important;">
+                <a href="{% url 'logout' %}" class=" waves-effect waves-block">
+                <i class="fa fa-power-off" aria-hidden="true"></i>
+                </a>
+              </div>
+              <div class=" " style="float: right !important;">
+                <a href="{% url 'password_change' %}" class=" waves-effect waves-block">
+                <i class="fa fa-key fa-lg fa-stack" aria-hidden="true" style="color:black;"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </header>
+      {% if messages %}
+      {% for message in messages %}
+      <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {% endfor %}
+      {% endif %}
+      <div>
+        <div class="pageTitle">
+          <h4>Settings</h4>
+        </div>
+        <div class="row">
+          <div class="col-12 userDetails">
+            <form method="post" name="updateSettingsForm" id="updateSettingsForm" class="userDetailsForm">
+              {% csrf_token %}
+              <div class="form-row blockDiv">
+                <div class="form-group col-md-6 col-sm-6 col-xs-12 width_hund">
+                  <label>Interview welcome message:</label>
+                  <div class="form-group   col-xs-12">
+                    <textarea name="welcomeMessage" id="welcomeMessage" cols="40" class="textarea_set">{{ settings.welcome_message }}</textarea>
+                  </div>
+                </div>
+                <div class="form-group col-md-6 col-sm-6 col-xs-12 width_hund">
+                  <label>Interview instructions:</label>
+                  <div>
+                    <textarea name="instructions" id="instructions" cols="40" class="textarea_set">{{ settings.interview_instructions }}</textarea>
+                  </div>
+                </div>
+                <div class="form-group col-md-6 col-sm-6 col-xs-12 width_hund">
+                  <label>Thankyou message:</label>
+                  <div>
+                    <textarea name="completionMessage" id="completionMessage" cols="40" class="textarea_set">{{ settings.thank_you_message }}</textarea>
+                  </div>
+                </div>
+                <div class="form-group col-md-6 col-sm-6 col-xs-12 width_hund">
+                  <label>Practice Interview</label>
+                  <div class="selectWrapper">
+                    <select name="PracticeInterview" id="PracticeInterview" class="selectBox">
+                      {% for index, interview in interview_list %}
+                        <p>{{index}} - {{interview}}</p>
+                        {% if  index == selected_index %}
+                          <option value="{{index}}" selected="">{{interview}}</option>
+                        {% else %}
+                          <option value="{{index}}">{{interview}}</option>
+                        {% endif %}
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6 col-sm-6 col-xs-12 width_hund_last">
+                  <label>Video Type</label>
+                  <div class="selectWrapper selectwrappercust">
+                    <select name="videoType" id="videoType" class="selectBox">
+                      <option value="1" selected="">Add Pipe</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-12 SaveBtnSS">
+                  <button type="submit" class="btn btn-b-theme addBtnSet" id="updateSettings" name="updateSettings">Save</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  {% else %}
+    <p>You need permission to perform this action.</p>
+  {% endif %}
+{% endblock %}

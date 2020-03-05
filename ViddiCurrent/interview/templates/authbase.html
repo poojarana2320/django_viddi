@@ -1,0 +1,130 @@
+{% extends "admin_base.html" %}
+{% load static %}
+{% block content %}
+{% if user.is_authenticated %}
+<aside id="leftsidebar" class="sidebar">
+   <div class="Logo_Sidebar">
+      {% if user.user_type > 4 %}
+      <a><img src="{{ company.img.url }}" style="max-width: 100px;"></a>
+      {% elif user.user_type < 2  %}
+      <a><img src="{% static 'img/6d792b0b-d307-11e9-956c-42010a8a0ff2' %}" alt="" class="O-Click menu-open"></a>
+      <a><img src="{% static 'img/0.png' %}" alt="" class="Second_Image_O menu-open"></a>
+      <div class="Arrow A-Open"><span class="Arrow_Manage"></span></div>
+      {% endif %}
+   </div>
+   <div class="toggle_bar">
+      <i class="fa fa-bars" aria-hidden="true"></i>
+   </div>
+   <!-- Menu -->
+   <div class="menu">
+      <ul class="list menu-open">
+         {% if user.user_type < 10 %}
+         <li class="">
+            <a href="{% url 'interviewer:dashboard' %}">
+               <span>
+                  <div class="ImageSet" style="width: 30px;">
+                     <img src="{% static 'img/583076b2-cf13-11e9-aa34-42010a8a0fed' %}" class="Das">
+                  </div>
+                  <b>Dashboard</b>
+               </span>
+            </a>
+         </li>
+         {% endif %}
+         {% if user.user_type < 3 %}
+         <li class="active">
+            <a href="{% url 'interviewer:user_management_list' %}">
+               <span>
+                  <div class="ImageSet" style="width: 30px;">
+                     <img src="{% static 'img/bccbc5c9-cf13-11e9-aa34-42010a8a0fed' %} ">
+                  </div>
+                  <b>Users</b>
+               </span>
+            </a>
+         </li>
+         {% endif %}
+         {% if user.user_type < 3 %}
+         <li class="active">
+            <a href="{% url 'interviewer:company_list' %}">
+               <span>
+                  <div class="ImageSet" style="width: 30px;">
+                     <img src="{% static 'img/building-16.png' %} " class="Das Libr">
+                  </div>
+                  <b>Companies</b>
+               </span>
+            </a>
+         </li>
+         {% endif %}
+         {% if user.user_type < 10 %}
+         <li class="">
+            <a href="{% url 'interviewer:questions_list' %}">
+               <span>
+                  <div class="ImageSet" style="width: 30px;">
+                     <img src="{% static 'img/books-stack-of-three.png' %} " class="Das Libr">
+                  </div>
+                  <b>Question Library</b>
+               </span>
+            </a>
+         </li>
+         {% endif %}
+         {% if user.user_type < 10 %}
+         <li class="">
+            <a href="{% url 'interviewer:vacancies_list' %}">
+               <span>
+                  <div class="ImageSet" style="width: 30px;">
+                     <img src="{% static 'img/c25f6256-cf13-11e9-aa34-42010a8a0fed' %} " class="Das">
+                  </div>
+                  <b>Vacancies</b>
+               </span>
+            </a>
+         </li>
+         {% endif %}
+         {% if user.user_type < 10 %}
+         <li class="">
+            <a href="{% url 'interviewer:interviews_list' %}">
+               <span>
+                  <div class="ImageSet" style="width: 30px;">
+                     <img src="{% static 'img/5d576e72-cf13-11e9-aa34-42010a8a0fed' %} " class="Das">
+                  </div>
+                  <b>Interviews</b>
+               </span>
+            </a>
+         </li>
+         {% endif %}
+         {% if user.user_type < 10 %}
+         <li class="">
+            <a href="{% url 'interviewer:candidates_list' %}">
+               <span>
+                  <div class="ImageSet" style="width: 30px;">
+                     <img src="{% static 'img/4bbb38fa-cf13-11e9-aa34-42010a8a0fed' %} " class="Das">
+                  </div>
+                  <b>Candidate List</b>
+               </span>
+            </a>
+         </li>
+         {% endif %}
+         {% if user.user_type < 2 %}
+         <li class="">
+            <a href="{% url 'interviewer:settings' %}">
+               <span>
+                  <div class="ImageSet" style="width: 30px;">
+                     <img src="{% static 'img/b08d9ea8-cf13-11e9-aa34-42010a8a0fed' %} " class="Das">
+                  </div>
+                  <b>Settings</b>
+               </span>
+            </a>
+         </li>
+         {% endif %}
+      </ul>
+   </div>
+</aside>
+<div class="container-fluid">
+</div>
+
+
+{% block interviewercontent %}
+
+{% endblock %}
+{% else %}
+<p>Please login to see this page.</p>
+{% endif %}
+{% endblock %}

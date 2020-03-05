@@ -1,0 +1,38 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block content %}
+  
+  <section class="login-signpage d-flex justify-content-center align-items-center">
+      <div class="loginFormContainer">
+        <div class="Logo Jaro">
+          <a href=""><img src="{% static 'img/fc1a6d75-d39c-11e9-8423-42010a8a0ff4' %}"></a>
+        </div>
+        <div class="company-title">Sign Up </div>
+        <div class="formFields">
+
+  <form onsubmit="return validtionform()" action="" method="post" > 
+    
+        {% csrf_token %}
+        {% for field in form %}
+        
+              {{ field.label_tag }}
+
+              <div class="row">
+                <div class="col-md-12">
+                {{ field }}
+                </div>
+              </div>      
+          <span id="span_{{ field.name }}"></span>
+          {{ field.errors }}
+        {% endfor %}
+        {{ error }}
+       <button class="form-control btn btn-primary signup_btn" >Sign Up</button>
+  </form>
+
+   </div>
+      </div>
+    </section>
+
+{% endblock %}
+
+

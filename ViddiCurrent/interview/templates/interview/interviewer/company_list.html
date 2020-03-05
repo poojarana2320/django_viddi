@@ -1,0 +1,98 @@
+{% extends "authbase.html" %}
+{% load static %}
+{% block interviewercontent %}
+<!-- ##Beginning content of the page -->
+{% if user.user_type < 10 %}
+<section class="content">
+    <header>
+        <div class="overlay"></div>
+        <nav class="navbar bg-theme">
+            <div class="container-fluid">
+                <div class="navbar-user">
+                    <a {% if user.user_type < 3 %} href="{% url 'interviewer:user_management_edit' user.pk %}"
+                        {% else %} href="" {% endif %}>
+                        <div class="User_Add"><span><i class="fas fa-user-tie"></i></span></div>
+                        <span>{{ user.first_name }}</span>
+                    </a>
+                    <div class="  " style="float: right !important;">
+                        <a href="{% url 'logout' %}" class=" waves-effect waves-block">
+                            <i class="fa fa-power-off" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div class=" " style="float: right !important;">
+                        <a href="{% url 'password_change' %}" class=" waves-effect waves-block">
+                            <i class="fa fa-key fa-lg fa-stack" aria-hidden="true" style="color:black;"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    <div>
+        <div class="row">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-6 pageTitle questionMaintenance">
+                        <h4>Company List</h4>
+                        <a class="btn btn-b-theme float-right mb-4" href="{% url 'interviewer:company_add' %}">Add Company</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 userMaintenance">
+                <div class="table-responsive">
+                    <table class="addQuestiontbl table table-sm">
+                        <thead class="bg-theme text-white">
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Name</th>
+                                <th class="width-120 text-center" scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for company in companies.all %}
+                            <tr>
+                                <td>{{ company.id }}</td>
+                                <td>{{ company.name}}</td>
+                                <td class="width-120 text-center">
+                                    <a href="{% url 'interviewer:company_email' company.id %}" data-toggle="tooltip" title="Email"><i
+                                            class="fa fa-envelope-o"></i></a>&nbsp;
+                                    <a href="{% url 'interviewer:company_edit' company.id %}" data-toggle="tooltip"
+                                        title="View/Update"><i class="fa fa-pencil-square-o"></i></a>&nbsp;
+                                    <a href="{% url 'interviewer:company_delete' company.id %}" data-toggle="tooltip"
+                                        title="Delete"><i class="fa fa-trash-o"></i></a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr class="odd">
+                                <td valign="top" colspan="5" class="dataTables_empty">No data available in table</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% else %}
+<p>You need permission to perform this action.</p>
+{% endif %}
+{% endblock %}
+{#
+<form method="POST" onclick="return confirm(&#39;Are you sure want to delete this ?&#39;)" class="fa fa-trash-o" action="{% url 'interviewer:user_management_delete' consumer.id %}">
+   {% csrf_token %}
+   <input type="submit" value="DELETE">
+</form>
+#}

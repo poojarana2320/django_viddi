@@ -1,0 +1,47 @@
+{% extends "userbase.html" %}
+{% load staticfiles %}
+{% block intervieweecontent %}
+<!-- ##Beginning content of the page -->
+  {% if user.user_type == 10 %}
+    <div class="container welcomeMainContainer">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        {% endfor %}
+      {% endif %}
+      <section class="section">
+        <div class="row">
+          <div class="col-12">
+            <div class="welcomeBtnContainer">
+              {% for ci in candidate_interviews %}
+                <div class="welcomeText">
+                  <p>
+                    {{ ci.taken_interviews.interview_organisation.name }} has invited you to complete a video interview for the role of {{ ci.taken_interviews.position_name.position }}.<br><br>
+                    Please complete all questions within the time limit.
+                  </p>
+                  {% if practice_flag %}
+                  	<a class="btn Start_Practice" href="{% url 'interviewee:interview_practice' %}">Start Practice Questions</a>
+                  {% endif %}
+                  <a class="btn Start_Inter" href="{% url 'interviewee:interviewee_attempt' ci.pk %}"> Start Interview</a>
+                </div>
+              {% empty %}
+                <div class="welcomeText">
+                  <h5>
+                    Congratulations, You have completed the video interview. We will be in touch shortly. Thank you.
+                  </h5>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  {% else %}
+    <p>You need permission to perform this action.</p>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,121 @@
+div.pipeRecordRTC { margin-left: 98px; }
+
+@media screen and (min-width: 320px)  and (max-width:444px) { 
+    
+    .loginFormContainer { width: 275px;     padding: 35px 20px 33px 20px; }
+
+}
+
+@media screen and (min-width: 320px)  and (max-width:520px) { 
+
+    .sideQnBtns {
+    width: 70%;
+}
+
+.welcomeMainContainer .col-8 {
+    width: 100%;
+    flex: 100%;
+    max-width: 100%;
+}
+
+.welcomeMainContainer .col-4 {
+    width: 100%;
+    flex: 100%;
+    max-width: 100%;
+    padding: 0 !important;
+    text-align: center;
+}
+
+.downArrowContainer { width: 100%; }
+    
+#pipeVideoInput { width: 100% !important;  }
+
+}
+
+
+@media screen and (min-width: 320px)  and (max-width:991px) { 
+
+#pipeVideoInput { width: 100% !important;  }
+div.pipeRecordRTC {
+margin-left: 0px !important;
+width: 100% !important;
+}
+
+.welcomeMainContainer .col-8 {
+    width: 100%;
+    flex: 100%;
+    max-width: 100%;
+}
+
+.welcomeMainContainer .col-4 {
+    width: 100%;
+    flex: 100%;
+    max-width: 100%;
+    padding: 0 !important;
+    text-align: center;
+}
+
+.downArrowContainer { width: 100%; }
+    
+#pipeVideoInput { width: 100% !important;  }
+
+#pipeClickPowered { left:0 !important; }
+
+div.pipeError {
+width: 100% !important;
+}
+
+div#pipeVrec {
+    width: 100% !important;
+}
+
+div#pipeMenu {
+    width: 100% !important;
+}
+
+div#hdfvr-recording-form {
+    display: none !important;
+}
+
+div#hdfvr-recording-form:first-child {
+    display: block !important;
+}
+
+div#pipeCounter,.pipeTimer {
+    left: 45% !important;
+}
+
+}
+
+@media screen and (min-width: 991px)  and (max-width:1200px) { 
+
+    .sideQnBtns {
+    width: 30%;
+}
+
+.welcomeMainContainer .col-8 {
+    width: 100%;
+    flex: 100%;
+    max-width: 100%;
+}
+
+.welcomeMainContainer .col-4 {
+    width: 100%;
+    flex: 100%;
+    max-width: 100%;
+    padding: 0 !important;
+    text-align: center;
+}
+
+.downArrowContainer { width: 100%; }
+    
+#pipeVideoInput { width: 100% !important;  }
+
+div#pipeCounter,.pipeTimer {
+    left: 45% !important;
+}
+
+
+}
+
+

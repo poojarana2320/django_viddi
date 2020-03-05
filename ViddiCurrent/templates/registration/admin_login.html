@@ -1,0 +1,42 @@
+{% extends "admin_base.html" %}
+{% load static %}
+{% block content %}
+  <section class="login d-flex justify-content-center align-items-center">
+     <div class="loginFormContainer">
+        <div class="Logo Jaro">
+           <a href="{% url 'login' %}"><img src="{% static 'img/fc1a6d75-d39c-11e9-8423-42010a8a0ff4' %}"></a>
+        </div>
+        <div class="Login_Desciption">
+           <h4>Welcome <span>back!</span></h4>
+        </div>
+        <div class="formFields">
+           <form method="post" novalidate>
+              {% csrf_token %}
+              <input type="hidden" name="next" value="{{ next }}">
+                  <div class="border_none">
+
+                    <div class="form-group ca">
+                       <img src="{% static 'img/2e95ce38-c98a-11e9-86f0-42010a8a0feb' %}" class="icon">
+                       {{ form.username }}
+                    </div>
+                    <div class="form-group ca">
+                       <img src="{% static 'img/24d3f0cb-c98a-11e9-86f0-42010a8a0feb' %}" class="icon lock">
+                       {{ form.password }}
+                    </div>
+                    {% for error in form.non_field_errors %}
+                    <p style="color:red;">{{ error }}</p>
+                    {% endfor %}
+
+                    <div class="Login_Sub">
+                       <button class="btn bg-theme" type="submit" id="btnLogin" value="Login" name="login">Login</button  >
+                    </div>
+
+                    <div class="Forget_Sub">
+                       <a class="float-left" href="{% url 'password_reset' %}">Forgot password?</a>
+                    </div>
+                  </div>  
+           </form>
+        </div>
+     </div>
+  </section>
+{% endblock %}

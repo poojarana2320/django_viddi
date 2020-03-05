@@ -1,0 +1,125 @@
+{% extends "authbase.html" %}
+{% load static %}
+{% load format_numbers %}
+{% block interviewercontent %}
+<!-- ##Beginning content of the page -->
+{% if user.user_type < 10 %}
+  <section class="content">
+    <header>
+      <div class="overlay"></div>
+      <nav class="navbar bg-theme">
+        <div class="container-fluid">
+          <div class="navbar-user">
+            <a {% if user.user_type < 3 %}
+            href="{% url 'interviewer:user_management_edit' user.pk %}"
+            {% else %}
+            href=""
+            {% endif %}>
+            <div class="User_Add"><span><i class="fas fa-user-tie"></i></span></div>
+            <span>{{ user.first_name }}</span>
+            </a>
+            <div class="  " style="float: right !important;">
+              <a href="{% url 'logout' %}" class=" waves-effect waves-block">
+              <i class="fa fa-power-off" aria-hidden="true"></i>
+              </a>
+            </div>
+            <div class=" " style="float: right !important;">
+              <a href="{% url 'password_change' %}" class=" waves-effect waves-block">
+              <i class="fa fa-key fa-lg fa-stack" aria-hidden="true" style="color:black;"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endfor %}
+    {% endif %}
+    <div>
+      <div class="pageTitle PageTitleWidth titleTestClass">
+        {% for interview in interviews %}
+          <h3>Candidates for the Vacancy - {{ interview }}</h3>
+        {% endfor %}
+
+        <a href="{% url 'interviewer:interviewee_add' interview_pk %}" class="btn btn-b-theme float-left rightside">Add a Candidate</a>
+        <a href="{% url 'interviewer:interviews_list' %}" class="btn btn-b-theme rightside" style="float: right;">Back</a>
+      </div>
+      <div class="row">
+      </div>
+      <div class="row userMaintenance">
+        <div class="col-12">
+          <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+            <div class="row">
+              <div class="col-sm-12 col-md-6">
+                <div class="dataTables_length" id="DataTables_Table_0_length">
+                  <label>
+                    Show
+                    <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="custom-select custom-select-sm form-control form-control-sm">
+                      <option value="10">10</option>
+                      <option value="25">25</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                    </select>
+                    entries
+                  </label>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6">
+                <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_0"></label></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <table class="interviewsTable table table-sm" id="DataTables_Table_0" role="grid">
+                  <thead class="bg-theme text-white">
+                    <tr role="row">
+                      <th class="width-70 sorting_asc" scope="col" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Sl. No.: activate to sort column descending" style="width: 70px;">Sl. No.</th>
+                      <th scope="col" class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Candidate: activate to sort column ascending" style="width: 365px;">Candidate</th>
+                      <th scope="col" class="text-center sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Created on: activate to sort column ascending" style="width: 193px;">Created on</th>
+                      <th scope="col" class="text-center sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Reference Number: activate to sort column ascending" style="width: 299px;">Reference Number</th>
+                      <th class="width-120 text-center sorting_disabled" scope="col" rowspan="1" colspan="1" aria-label="Action" style="width: 180px;">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for taken_interview in taken_interviews.all %}
+                      <tr role="row" class="odd">
+                        <th scope="row" class="text-center sorting_1">{{ forloop.counter }}</th>
+                        <td>{{ taken_interview.candidate.name }}</td>
+                        <td class="text-center">
+                            {{ taken_interview.interview_create_date|date:'d/m/Y' }}
+                        </td>
+                        <td class="text-center">INT{{ taken_interview.id|format_numbers:4 }}</td>
+                        <td class="width-120 text-center">
+                          <a href="{% url 'interviewer:interviewee_review' interview_pk taken_interview.candidate.pk %}"><i class="fa fa-pencil-square-o"></i></a>
+                        </td>
+                      </tr>
+                    {% empty %}
+                        <tr class="odd"><td valign="top" colspan="5" class="dataTables_empty">No data available in table</td></tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% else %}
+<p>You need permission to perform this action.</p>
+{% endif %}
+{% endblock %}
+{#
+<form method="POST" onclick="return confirm(&#39;Are you sure want to delete this ?&#39;)" class="fa fa-trash-o" action="{% url 'interviewer:user_management_delete' consumer.id %}">
+  {% csrf_token %}
+  <input type="submit" value="DELETE">
+</form>
+#}

@@ -1,0 +1,89 @@
+{% extends "authbase.html" %}
+{% load static %}
+{% block interviewercontent %}
+<!-- ##Beginning content of the page -->
+{% if user.user_type < 10 %}
+  <section class="content">
+    <header>
+      <div class="overlay"></div>
+      <nav class="navbar bg-theme">
+        <div class="container-fluid">
+          <div class="navbar-user">
+            <a {% if user.user_type < 3 %}
+            href="{% url 'interviewer:user_management_edit' user.pk %}"
+            {% else %}
+            href=""
+            {% endif %}>
+            <div class="User_Add"><span><i class="fas fa-user-tie"></i></span></div>
+            <span>{{ user.first_name }}</span>
+            </a>
+            <div class="  " style="float: right !important;">
+              <a href="{% url 'logout' %}" class=" waves-effect waves-block">
+              <i class="fa fa-power-off" aria-hidden="true"></i>
+              </a>
+            </div>
+            <div class=" " style="float: right !important;">
+              <a href="{% url 'password_change' %}" class=" waves-effect waves-block">
+              <i class="fa fa-key fa-lg fa-stack" aria-hidden="true" style="color:black;"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+     {% if messages %}
+       {% for message in messages %}
+       <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+          </button>
+       </div>
+       {% endfor %}
+     {% endif %}
+     <div>
+        <div class="row">
+           <div class="col-12">
+             <div class="pageTitle userDet">
+                <h4 class="AddUserD">Question Delete</h4>
+                <a href="{% url 'interviewer:questions_list' %}" class="btn btn-b-theme float-left rightside">Back</a>
+             </div>
+           </div>
+        </div>
+
+          <div class="row">
+             <div class="col-12 userMaintenance">
+                <h2 class="mb-3">Confirm deletion</h2>
+                <p class="lead">Are you sure you want to delete the Question "{{ question.text }}"? There is no going back.</p>
+                <form method="post">
+                   {% csrf_token %}
+                   {% if form.non_field_errors %}
+                     {% for error in form.non_field_errors %}
+                      {{error}}
+                     {% endfor %}
+                   {% endif %}
+                   {% if form.errors %}
+                     {% for field, errors in form.errors.items %}
+                       {% for error in errors %}
+                         <p style="color:red;">{{ error }}</p>
+                       {% endfor %}
+                     {% endfor %}
+                   {% endif %}
+                   <div class="form-row widthHund">
+                      <div class="col-12 centerbtn">
+                         <button type="submit" class="btn btn-b-theme float-right" id="addUserButton" name="addUserButton">Yes, I'm sure</button>
+                      </div>
+                      <div class="col-12 centerbtn">
+                         <a href="{% url 'interviewer:questions_list' %}" class="btn btn-outline-secondary btn-lg" role="button">Nevermind</a>
+                      </div>
+                   </div>
+                </form>
+             </div>
+          </div>
+
+     </div>
+  </section>
+{% else %} #}
+  <p>You need permission to perform this action.</p>
+{% endif %}
+{% endblock %}
